@@ -6,7 +6,6 @@ const router = express.Router();
 
 router.get("/login", forwardAuthenticated, (req, res) => {
   res.render("login", { messages: req.session.messages })
-  
 });
 
 router.post(
@@ -19,7 +18,6 @@ router.post(
   })
 )
 
-
 router.get("/logout", (req, res) => {
   req.logout((err) => {
     if (err) console.log(err);
@@ -31,10 +29,12 @@ router.get('/github',
   passport.authenticate('github', { scope: [ 'user:email' ] }));
 
 router.get('/github/callback', 
-  passport.authenticate('github', { failureRedirect: '/login' }),
+  passport.authenticate('github', {
+    failureRedirect: '/auth/login' 
+  }),
   function(req, res) {
     // Successful authentication, redirect home.
-    res.redirect('/');
+    res.redirect('/dashboard');
   });
 
 export default router;

@@ -19,8 +19,9 @@ const localStrategy = new LocalStrategy(
             message: "Your password is incorrect.",
           });
     } catch (e) {
+      let email = req.body.email;
       done(null, false, {
-        message: "The email you have entered does not exist!",
+        message: `Couldn't find the user with email: ${email}`,
       });
     }
   }
@@ -36,7 +37,7 @@ passport.serializeUser(function (user: Express.User, done: (err: any, id?: numbe
 /*
 FIX ME (types) 😭
 */
-passport.deserializeUser(function (id: Express.User, done: any) {
+passport.deserializeUser(function (id: number, done: (err: any, user?: Express.User | null) => void) {
   let user = getUserById(id);
   if (user) {
     done(null, user);
