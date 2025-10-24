@@ -3,7 +3,7 @@ import { PassportStrategy } from '../../interfaces/index';
 
 const githubStrategy: GitHubStrategy = new GitHubStrategy(
     {
-        clientID: "",
+        clientID: process.env.CLIENT_ID,
         clientSecret: "",
         callbackURL: "",
         passReqToCallback: true,

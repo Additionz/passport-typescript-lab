@@ -2,13 +2,22 @@
   "name": "passportdemo",
   "version": "1.0.0",
   "description": "",
+  "keywords": [],
+  "homepage": "https://github.com/adhanji8/passport-typescript-lab#readme",
+  "bugs": {
+    "url": "https://github.com/adhanji8/passport-typescript-lab/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adhanji8/passport-typescript-lab.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "tsx --watch --env-file=.env app.ts"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "@types/express-ejs-layouts": "^2.5.0",
     "@types/passport": "^1.0.11",

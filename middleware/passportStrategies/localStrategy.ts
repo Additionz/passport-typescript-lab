@@ -5,30 +5,38 @@ import { PassportStrategy } from '../../interfaces/index';
 
 const localStrategy = new LocalStrategy(
   {
+    passReqToCallback: true,
     usernameField: "email",
     passwordField: "password",
   },
-  (email, password, done) => {
-    const user = getUserByEmailIdAndPassword(email, password);
-    return user
-      ? done(null, user)
-      : done(null, false, {
-          message: "Your login details are not valid. Please try again",
-        });
+  (req, email, password, done) => {
+    req.session.messages = [];
+    try {
+      const user = getUserByEmailIdAndPassword(email, password);
+      return user
+        ? done(null, user)
+        : done(null, false, {
+            message: "Your password is incorrect.",
+          });
+    } catch (e) {
+      done(null, false, {
+        message: "The email you have entered does not exist!",
+      });
+    }
   }
 );
 
 /*
 FIX ME (types) 😭
 */
-passport.serializeUser(function (user: any, done: any) {
+passport.serializeUser(function (user: Express.User, done: (err: any, id?: number) => void) {
   done(null, user.id);
 });
 
 /*
 FIX ME (types) 😭
 */
-passport.deserializeUser(function (id: any, done: any) {
+passport.deserializeUser(function (id: Express.User, done: any) {
   let user = getUserById(id);
   if (user) {
     done(null, user);
