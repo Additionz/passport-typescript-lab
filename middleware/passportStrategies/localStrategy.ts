@@ -10,7 +10,6 @@ const localStrategy = new LocalStrategy(
     passwordField: "password",
   },
   (req, email, password, done) => {
-    req.session.messages = [];
     try {
       const user = getUserByEmailIdAndPassword(email, password);
       return user

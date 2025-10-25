@@ -5,7 +5,14 @@ import { forwardAuthenticated } from "../middleware/checkAuth";
 const router = express.Router();
 
 router.get("/login", forwardAuthenticated, (req, res) => {
-  res.render("login", { messages: req.session.messages })
+  let message: string = "";
+  if ("messages" in req.session) {
+    if (req.session.messages instanceof Array) {
+      message = req.session.messages[0];
+      req.session.messages = [];
+    }
+  }
+  res.render("login", { message })
 });
 
 router.post(
@@ -14,7 +21,7 @@ router.post(
     successRedirect: "/dashboard",
     failureRedirect: "/auth/login",
     /* FIX ME: 😭 failureMsg needed when login fails */
-    failureMessage: true
+    failureMessage: true,
   })
 )
 

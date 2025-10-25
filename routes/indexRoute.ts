@@ -39,10 +39,16 @@ router.get("/admin", ensureAdmin, (req, res) => {
 
 router.post("/admin/revoke/:sessionId", ensureAdmin, (req, res) => {
   let revokeSession = req.params.sessionId;
-  req.sessionStore.destroy(revokeSession, (err) => {
+  if (revokeSession == req.sessionID) {
+    req.sessionStore.destroy(revokeSession, (err) => {
+    if (err) console.log(err)
+      res.redirect("/auth/login")
+  })} 
+  else {
+    req.sessionStore.destroy(revokeSession, (err) => {
     if (err) console.log(err)
       res.redirect("/admin")
-  })
+  })}
 });
 
 export default router;
